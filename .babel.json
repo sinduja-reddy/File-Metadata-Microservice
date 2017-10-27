@@ -258,7 +258,7 @@
         "import express from 'express';\nimport mongoose from 'mongoose';\nimport path from 'path';\n\nimport bodyParser from 'body-parser';\nimport { fileApi } from './api/file'\n \nconst mongodb = process.env.MLAB_URI;\n\nmongooseInit(mongodb); \n \nexport const app = express(); // Create express app\n \napp.use(bodyParser.urlencoded({extended: false}))\napp.use(bodyParser.json())\n/* Mongoose initialization function */\nfunction mongooseInit(mongodb) {\n  mongoose.Promise = global.Promise;\n  mongoose.connect(mongodb);\n}\napp.use(express.static('public'))\napp.get('/', (req, res) => {\n  res.sendFile( path.join(__dirname ,'../views','index.html'))\n});\napp.use('/api', fileApi);"
       ]
     },
-    "mtime": 1509119569506
+    "mtime": 1509136265299
   },
   "{\"filename\":\"/app/src/api/file.js\",\"env\":{},\"retainLines\":false,\"highlightCode\":true,\"suppressDeprecationMessages\":false,\"presets\":[],\"plugins\":[[[],{\"loose\":false,\"spec\":false}],[[],null],[[],null],[[],{\"spec\":false}],[[],null],[[],{\"loose\":false}],[[],null],[[],null],[[],null],[[],{\"loose\":false}],[[],{\"loose\":false}],[[],null],[[],null],[[],null],[[],{\"loose\":false}],[[],null],[[],{\"loose\":false}],[[],null],[[],null],[[],{\"loose\":false}],[[],{\"async\":false,\"asyncGenerators\":false}]],\"ignore\":[],\"code\":true,\"metadata\":true,\"ast\":true,\"comments\":true,\"compact\":\"auto\",\"minified\":false,\"sourceRoot\":\"/app/src/api\",\"babelrc\":true,\"sourceType\":\"module\",\"moduleIds\":false,\"passPerPreset\":false,\"parserOpts\":false,\"generatorOpts\":false}:6.26.0": {
     "metadata": {
@@ -278,6 +278,19 @@
                 "kind": "named",
                 "imported": "default",
                 "local": "express"
+              }
+            ]
+          },
+          {
+            "source": "multer",
+            "imported": [
+              "default"
+            ],
+            "specifiers": [
+              {
+                "kind": "named",
+                "imported": "default",
+                "local": "multer"
               }
             ]
           }
@@ -431,7 +444,7 @@
       "basename": "file"
     },
     "ignored": false,
-    "code": "'use strict';\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports.fileApi = undefined;\n\nvar _express = require('express');\n\nvar _express2 = _interopRequireDefault(_express);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar fileApi = exports.fileApi = _express2.default.Router();\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImZpbGUuanMiXSwibmFtZXMiOlsiZmlsZUFwaSIsIlJvdXRlciJdLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQUFBOzs7Ozs7QUFDTyxJQUFNQSw0QkFBUyxrQkFBUUMsTUFBUixFQUFmIiwiZmlsZSI6ImZpbGUuanMiLCJzb3VyY2VSb290IjoiL2FwcC9zcmMvYXBpIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IGV4cHJlc3MgZnJvbSAnZXhwcmVzcyc7XG5leHBvcnQgY29uc3QgZmlsZUFwaT0gZXhwcmVzcy5Sb3V0ZXIoKTtcblxuIl19",
+    "code": "'use strict';\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports.fileApi = undefined;\n\nvar _express = require('express');\n\nvar _express2 = _interopRequireDefault(_express);\n\nvar _multer = require('multer');\n\nvar _multer2 = _interopRequireDefault(_multer);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar fileApi = exports.fileApi = _express2.default.Router();\n\n\nvar upload = (0, _multer2.default)({ dest: 'uploads/' });\n\nfileApi.post('/fileanalyse', upload.single('upfile'), function (req, res, next) {\n  res.json({ filename: req.file.originalname, size: req.file.size });\n});\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImZpbGUuanMiXSwibmFtZXMiOlsiZmlsZUFwaSIsIlJvdXRlciIsInVwbG9hZCIsImRlc3QiLCJwb3N0Iiwic2luZ2xlIiwicmVxIiwicmVzIiwibmV4dCIsImpzb24iLCJmaWxlbmFtZSIsImZpbGUiLCJvcmlnaW5hbG5hbWUiLCJzaXplIl0sIm1hcHBpbmdzIjoiOzs7Ozs7O0FBQUE7Ozs7QUFFQTs7Ozs7O0FBRE8sSUFBTUEsNEJBQVMsa0JBQVFDLE1BQVIsRUFBZjs7O0FBR1AsSUFBSUMsU0FBUyxzQkFBTyxFQUFFQyxNQUFNLFVBQVIsRUFBUCxDQUFiOztBQUVBSCxRQUFRSSxJQUFSLENBQWEsY0FBYixFQUE0QkYsT0FBT0csTUFBUCxDQUFjLFFBQWQsQ0FBNUIsRUFBb0QsVUFBQ0MsR0FBRCxFQUFLQyxHQUFMLEVBQVNDLElBQVQsRUFBZ0I7QUFDbEVELE1BQUlFLElBQUosQ0FBUyxFQUFDQyxVQUFTSixJQUFJSyxJQUFKLENBQVNDLFlBQW5CLEVBQWdDQyxNQUFLUCxJQUFJSyxJQUFKLENBQVNFLElBQTlDLEVBQVQ7QUFDRCxDQUZEIiwiZmlsZSI6ImZpbGUuanMiLCJzb3VyY2VSb290IjoiL2FwcC9zcmMvYXBpIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IGV4cHJlc3MgZnJvbSAnZXhwcmVzcyc7XG5leHBvcnQgY29uc3QgZmlsZUFwaT0gZXhwcmVzcy5Sb3V0ZXIoKTtcbmltcG9ydCBtdWx0ZXIgZnJvbSAnbXVsdGVyJztcblxudmFyIHVwbG9hZCA9IG11bHRlcih7IGRlc3Q6ICd1cGxvYWRzLycgfSlcblxuZmlsZUFwaS5wb3N0KCcvZmlsZWFuYWx5c2UnLHVwbG9hZC5zaW5nbGUoJ3VwZmlsZScpLChyZXEscmVzLG5leHQpPT57XG4gIHJlcy5qc29uKHtmaWxlbmFtZTpyZXEuZmlsZS5vcmlnaW5hbG5hbWUsc2l6ZTpyZXEuZmlsZS5zaXplfSk7XG59KVxuXG4iXX0=",
     "ast": null,
     "map": {
       "version": 3,
@@ -440,15 +453,27 @@
       ],
       "names": [
         "fileApi",
-        "Router"
+        "Router",
+        "upload",
+        "dest",
+        "post",
+        "single",
+        "req",
+        "res",
+        "next",
+        "json",
+        "filename",
+        "file",
+        "originalname",
+        "size"
       ],
-      "mappings": ";;;;;;;AAAA;;;;;;AACO,IAAMA,4BAAS,kBAAQC,MAAR,EAAf",
+      "mappings": ";;;;;;;AAAA;;;;AAEA;;;;;;AADO,IAAMA,4BAAS,kBAAQC,MAAR,EAAf;;;AAGP,IAAIC,SAAS,sBAAO,EAAEC,MAAM,UAAR,EAAP,CAAb;;AAEAH,QAAQI,IAAR,CAAa,cAAb,EAA4BF,OAAOG,MAAP,CAAc,QAAd,CAA5B,EAAoD,UAACC,GAAD,EAAKC,GAAL,EAASC,IAAT,EAAgB;AAClED,MAAIE,IAAJ,CAAS,EAACC,UAASJ,IAAIK,IAAJ,CAASC,YAAnB,EAAgCC,MAAKP,IAAIK,IAAJ,CAASE,IAA9C,EAAT;AACD,CAFD",
       "file": "file.js",
       "sourceRoot": "/app/src/api",
       "sourcesContent": [
-        "import express from 'express';\nexport const fileApi= express.Router();\n\n"
+        "import express from 'express';\nexport const fileApi= express.Router();\nimport multer from 'multer';\n\nvar upload = multer({ dest: 'uploads/' })\n\nfileApi.post('/fileanalyse',upload.single('upfile'),(req,res,next)=>{\n  res.json({filename:req.file.originalname,size:req.file.size});\n})\n\n"
       ]
     },
-    "mtime": 1509119504504
+    "mtime": 1509139868114
   }
 }
